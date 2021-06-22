@@ -1,0 +1,157 @@
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li class="active col-md-12 padding-null">
+                    <div class="col-md-8 padding-null">
+                        <span><i class="fa fa-table"></i> Loan Default Prediction:</span>
+
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- Busy indicator -->
+    <div [ngBusy]="[busy_ent, busy_txn, busy_read, busy_login]"></div>
+    <ng2-toasty></ng2-toasty>
+
+    <form role="form" #moduleViewForm="ngForm" id="moduleViewForm">
+        <!-- <button type="button" class="btn btn-primary" (click)="updatePropensityData()">Upload Data</button> -->
+        <!-- <button pButton type="button" icon="fa-caret-right" tooltip="View Results" placement="top"
+            (click)="readPropensityFinal()"></button> -->
+        <div class="modal-body" *ngIf="propensityData">
+            <div class="col-md-12" style="margin-top: 30px;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v1" class="col-md-6">Customer Type:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vone" name="v1" [(ngModel)]="v1"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v2" class="col-md-6">Age:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vtwo" name="v2" [(ngModel)]="v2"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v3" class="col-md-6">Gender:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vthree" name="v3" [(ngModel)]="v3"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top: 30px;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v4" class="col-md-6">Employment status:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vfour" name="v4" [(ngModel)]="v4"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v5" class="col-md-6">Income level:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vfive" name="v5" [(ngModel)]="v5"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v6" class="col-md-6">Existing loans:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vsix" name="v6" [(ngModel)]="v6"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top: 30px;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="vseven" class="col-md-6">Early payoff done:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vseven" name="v7" [(ngModel)]="v7"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v8" class="col-md-6">Contract amended:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="veight" name="v8" [(ngModel)]="v8"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v9" class="col-md-6">Schedule change:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vnine" name="v9" [(ngModel)]="v9"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" style="margin-top: 30px;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="v10" class="col-md-6">Rollover of Loans:</label>
+                        <div class="col-md-4">
+                            <p-dropdown [options]="vten" name="v10" [(ngModel)]="v10"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="updatePropensityData()">SUBMIT</button>
+        <button type="button" class="btn btn-primary" (click)="readPropensityFinal()">VIEW RESULT</button>
+        <button type="button" class="btn btn-primary" (click)="readPropensityData()">CLEAR</button>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12" *ngIf="propensityFinalMainData">
+            <ol class="breadcrumb">
+                <li class="active col-md-12 padding-null">
+                    <div class="col-md-8 padding-null">
+                        <span><i class="fa fa-table"></i> Result </span>
+
+                    </div>
+                </li>
+            </ol>
+
+            <p-dataTable [value]="propensityFinalMainData" [rows]="10" [pageLinks]="5" selectionMode="single"
+                [(selection)]="selectedRow" (onRowSelect)="onRowSelect($event)" [editable]="this.entitlement.Update"
+                resizableColumns="true" columnResizeMode="expand">
+                <header>
+                    <!-- <button type="button" class="btn btn-primary" (click)="readPropensityFinal()">View Results</button> -->
+                    <!-- <button pButton type="button" icon="fa-caret-right" tooltip="View Results" placement="top"
+                        (click)="readPropensityFinal()"></button> -->
+                </header>
+                <p-column *ngFor="let col of columns" [field]="col.field" [header]="col.header" [filter]="col.filter"
+                    [editable]="col.editable">
+
+                    <template let-col let-row="rowData" pTemplate="body">
+                        <div *ngIf="row.RESULT=='NO RISK'">
+                            <td style="color: rgb(39, 211, 82)">{{row[col.field]}}
+                            </td>
+                        </div>
+                        <div *ngIf=" row.RESULT=='RISK'">
+                            <td style="color: rgb(215, 41, 41)">{{row[col.field]}}
+                                <!-- <tr style="background-color: null">{{row[col.field]}} -->
+                            </td>
+                        </div>
+                    </template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
